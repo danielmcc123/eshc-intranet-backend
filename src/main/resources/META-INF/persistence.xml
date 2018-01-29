@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+
+    <persistence-unit transaction-type="JTA" name="eshcPU">
+        <class>com.eshc.backend.model.Member</class>
+    <properties>
+        <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+        <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
+        <property name="javax.persistence.schema-generation.scripts.create-target" value="eshcCreate.ddl"/>
+        <property name="javax.persistence.schema-generation.scripts.drop-target" value="eshcDrop.ddl"/>
+    </properties>
+    </persistence-unit>
+</persistence>
