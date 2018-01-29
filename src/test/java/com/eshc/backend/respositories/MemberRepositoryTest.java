@@ -1,6 +1,6 @@
-package com.eshc.backend.respository;
+package com.eshc.backend.respositories;
 
-import com.eshc.backend.model.Member;
+import com.eshc.backend.models.Member;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;

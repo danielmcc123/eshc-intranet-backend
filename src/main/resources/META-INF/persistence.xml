@@ -2,8 +2,11 @@
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
 
     <persistence-unit transaction-type="JTA" name="eshcPU">
-        <class>com.eshc.backend.model.Member</class>
-    <properties>
+        <class>com.eshc.backend.models.Member</class>
+        <class>com.eshc.backend.models.ActionPoint</class>
+        <class>com.eshc.backend.models.Note</class>
+        <class>com.eshc.backend.models.Task</class>
+        <properties>
         <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
         <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
         <property name="javax.persistence.schema-generation.scripts.create-target" value="eshcCreate.ddl"/>
