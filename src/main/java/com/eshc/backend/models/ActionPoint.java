@@ -9,7 +9,6 @@ import java.util.List;
 @Entity
 public class ActionPoint {
     //*************************************************Properties*******************************************************
-
     @Id @GeneratedValue
     private Long id;
 
@@ -19,9 +18,6 @@ public class ActionPoint {
 
     @ManyToOne
     private Member leadContributor;
-
-    @ManyToOne
-    private Member secondContributor;
 
     @OneToMany
     private List<Member> listOfContributors;
@@ -54,13 +50,7 @@ public class ActionPoint {
         this.currentStatus = status;
     }
 
-    //****************************************************Methods*******************************************************
-    public void addTask(){
-        tasks.add(new Task());
-    }
-
     //*********************************************Getters and Setters**************************************************
-
     public Long getId() {
         return id;
     }
@@ -83,14 +73,6 @@ public class ActionPoint {
 
     public void setLeadContributor(Member leadContributor) {
         this.leadContributor = leadContributor;
-    }
-
-    public Member getSecondContributor() {
-        return secondContributor;
-    }
-
-    public void setSecondContributor(Member secondContributor) {
-        this.secondContributor = secondContributor;
     }
 
     public List<Member> getListOfContributors() {

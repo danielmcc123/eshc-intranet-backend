@@ -13,7 +13,7 @@ import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 @Transactional(SUPPORTS)
-public class NoteRespository {
+public class NoteRepository {
 
     @PersistenceContext(name = "eshcPU")
     private EntityManager entityManager;
@@ -40,7 +40,7 @@ public class NoteRespository {
     }
 
     public List<Note> getNotes(){
-        TypedQuery<Note> query = entityManager.createQuery("SELECT n FROM Note n ORDER BY n.dateTime DESC ", Note.class);
+        TypedQuery<Note> query = entityManager.createQuery("SELECT n FROM Note n ORDER BY n.dateTimeCreated DESC ", Note.class);
         return query.getResultList();
     }
 

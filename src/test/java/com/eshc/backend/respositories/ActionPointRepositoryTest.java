@@ -10,14 +10,17 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import javax.inject.Inject;
 
 import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ActionPointRepositoryTest {
 
     @Inject
@@ -51,6 +54,14 @@ public class ActionPointRepositoryTest {
 
     @Test
     public void deleteActionPoint() {
+        // Create an Action Point
+        ActionPoint actionPoint = new ActionPoint();
+        actionPoint.setTitle("Second Action Point");
+        actionPointRepository.createActionPoint(actionPoint);
+        assertEquals(Long.valueOf(2),actionPointRepository.countAllActionPoints());
+
+        actionPointRepository.deleteActionPoint(actionPoint.getId());
+        assertEquals(Long.valueOf(1),actionPointRepository.countAllActionPoints());
     }
 
     @Test

@@ -1,6 +1,8 @@
 package com.eshc.backend.respositories;
 
 import com.eshc.backend.models.Member;
+import com.eshc.backend.models.Note;
+import com.eshc.backend.models.Task;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -17,36 +19,37 @@ import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MemberRepositoryTest {
-
+public class TaskRepositoryTest {
 
     @Inject
-    private MemberRepository memberRepository;
+    private TaskRepository taskRepository;
 
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(MemberRepository.class)
+                .addClass(TaskRepository.class)
+                .addClass(Note.class)
                 .addClass(Member.class)
+                .addClass(Task.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml");
     }
 
     @Test
-    public void createMember() {
-        // Check that zero members exist currently
-        assertEquals(Long.valueOf(0), memberRepository.countAllMembers());
-        assertEquals(0,memberRepository.getMembers().size());
+    public void createTask() {
+        // Check that zero tasks exist currently
+        assertEquals(Long.valueOf(0),taskRepository.countAllTasks());
 
-        // Create Member then check that it exists
-        Member member = new Member("Daniel","McCarragher");
-        memberRepository.createMember(member);
-        assertEquals(Long.valueOf(1), memberRepository.countAllMembers());
+        //Create task
+        taskRepository.createTask(new Task());
+
+        //Check that new one exists
+        assertEquals(Long.valueOf(1),taskRepository.countAllTasks());
     }
 
     @Test
-    public void deleteMember(){
-        memberRepository.deleteMember(memberRepository.getMembers().get(0).getId());
-        assertEquals(Long.valueOf(0), memberRepository.countAllMembers());
+    public void deleteTask() {
+        taskRepository.deleteTask(taskRepository.getTasks().get(0).getId());
+        assertEquals(Long.valueOf(0),taskRepository.countAllTasks());
     }
 }
