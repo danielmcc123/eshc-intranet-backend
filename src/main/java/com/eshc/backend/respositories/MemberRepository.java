@@ -1,6 +1,6 @@
-package com.eshc.backend.respository;
+package com.eshc.backend.respositories;
 
-import com.eshc.backend.model.Member;
+import com.eshc.backend.models.Member;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,6 +25,12 @@ public class MemberRepository {
 
     public Member getMember(Long id){
         return entityManager.find(Member.class, id);
+    }
+
+    @Transactional(REQUIRED)
+    public Member updateMember(Member member){
+        entityManager.persist(member);
+        return member;
     }
 
     @Transactional(REQUIRED)
