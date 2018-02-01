@@ -4,41 +4,47 @@ import com.eshc.backend.models.Member;
 import com.eshc.backend.respositories.MemberRepository;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.List;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/members")
+@Produces(APPLICATION_JSON)
+@Consumes(APPLICATION_JSON)
 public class MemberEndpoint {
 
     @Inject
     private MemberRepository memberRepository;
 
+    @POST
     public Member createMember(Member member) {
         return memberRepository.createMember(member);
     }
 
-    public Member getMember(Long id) {
+    @GET
+    @Path("/{id}")
+    public Member getMember(@PathParam("id") Long id) {
         return memberRepository.getMember(id);
     }
 
+    @PUT
     public Member updateMember(Member member) {
         return memberRepository.updateMember(member);
     }
 
-    public void deleteMember(Long id) {
+    @DELETE
+    @Path("/{id}")
+    public void deleteMember(@PathParam("id") Long id) {
         memberRepository.deleteMember(id);
     }
 
+    @GET
     public List<Member> getMembers() {
         return memberRepository.getMembers();
     }
 
-    @Path("/count")
-    @Produces(APPLICATION_JSON)
     @GET
+    @Path("/count")
     public Long countAllMembers() {
         return memberRepository.countAllMembers();
     }

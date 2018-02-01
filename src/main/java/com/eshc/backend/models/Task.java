@@ -14,7 +14,7 @@ public class Task {
     @OneToMany
     private List<Note> notes;
 
-    @ManyToOne
+    @OneToOne
     private Member leadContributor;
 
     @OneToMany

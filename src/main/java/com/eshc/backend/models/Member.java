@@ -36,8 +36,8 @@ public class Member {
         this.homeAddress = homeAddress;
     }
 
-    public LocalDate getDob() {
-        return dob;
+    public String getDob() {
+        return dob.toString();
     }
 
     public void setDob(LocalDate dob) {
