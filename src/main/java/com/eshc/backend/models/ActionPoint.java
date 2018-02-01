@@ -16,7 +16,7 @@ public class ActionPoint {
 
     private LocalDateTime dateTime;
 
-    @ManyToOne
+    @OneToOne
     private Member leadContributor;
 
     @OneToMany
