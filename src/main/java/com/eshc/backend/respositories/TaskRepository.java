@@ -30,7 +30,7 @@ public class TaskRepository {
 
     @Transactional(REQUIRED)
     public Task updateTask(Task task){
-        entityManager.persist(task);
+        entityManager.merge(task);
         return task;
     }
 

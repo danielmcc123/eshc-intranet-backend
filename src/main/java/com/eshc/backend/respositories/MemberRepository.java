@@ -29,7 +29,7 @@ public class MemberRepository {
 
     @Transactional(REQUIRED)
     public Member updateMember(Member member){
-        entityManager.persist(member);
+        entityManager.merge(member);
         return member;
     }
 

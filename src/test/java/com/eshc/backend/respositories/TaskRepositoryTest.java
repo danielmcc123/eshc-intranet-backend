@@ -24,10 +24,14 @@ public class TaskRepositoryTest {
     @Inject
     private TaskRepository taskRepository;
 
+    @Inject
+    private MemberRepository memberRepository;
+
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addClass(TaskRepository.class)
+                .addClass(MemberRepository.class)
                 .addClass(Note.class)
                 .addClass(Member.class)
                 .addClass(Task.class)
@@ -52,4 +56,17 @@ public class TaskRepositoryTest {
         taskRepository.deleteTask(taskRepository.getTasks().get(0).getId());
         assertEquals(Long.valueOf(0),taskRepository.countAllTasks());
     }
+
+    @Test
+    public void updateTask(){
+        Task task = new Task();
+        Member member = new Member();
+        memberRepository.createMember(member);
+        taskRepository.createTask(task);
+        Task loadedTask = taskRepository.getTask(task.getId());
+        loadedTask.setLeadContributor(member);
+        Task updatedTask = taskRepository.updateTask(loadedTask);
+        assertEquals(updatedTask.getLeadContributor(), member);
+    }
+
 }

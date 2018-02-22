@@ -30,7 +30,7 @@ public class NoteRepository {
 
     @Transactional(REQUIRED)
     public Note updateNote(Note note){
-        entityManager.persist(note);
+        entityManager.merge(note);
         return note;
     }
 

@@ -28,8 +28,8 @@ public class ActionPointRepository {
     }
 
     @Transactional(REQUIRED)
-    public ActionPoint updateMember(ActionPoint actionPoint){
-        entityManager.persist(actionPoint);
+    public ActionPoint updateActionPoint(ActionPoint actionPoint){
+        entityManager.merge(actionPoint);
         return actionPoint;
     }
 

@@ -50,4 +50,17 @@ public class NoteRepositoryTest {
         noteRepository.deleteNote(noteRepository.getNotes().get(0).getId());
         assertEquals(Long.valueOf(0),noteRepository.countAllNotes());
     }
+
+    @Test
+    public void updateNote(){
+        String body = "Test body of text";
+
+        Note note = new Note();
+        noteRepository.createNote(note);
+        Note loadedNote = noteRepository.getNote(note.getId());
+        loadedNote.setNoteBody(body);
+        Note updatedNote = noteRepository.updateNote(loadedNote);
+        assertEquals(updatedNote.getNoteBody(), body);
+
+    }
 }

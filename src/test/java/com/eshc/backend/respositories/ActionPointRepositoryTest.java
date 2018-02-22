@@ -70,4 +70,16 @@ public class ActionPointRepositoryTest {
         ActionPoint ap = actionPointRepository.getActionPoints().get(0);
         assertEquals("Make a REST service", ap.getTitle());
     }
+
+    @Test
+    public void updateActionPoint(){
+        ActionPoint actionPoint = new ActionPoint();
+        actionPoint.setTitle("Second Action Point");
+        actionPointRepository.createActionPoint(actionPoint);
+        ActionPoint loadedActionPoint = actionPointRepository.getActionPoint(actionPoint.getId());
+        loadedActionPoint.setTitle("Test Title");
+        ActionPoint updatedActionPoint = actionPointRepository.updateActionPoint(loadedActionPoint);
+        assertEquals(updatedActionPoint.getTitle(),"Test Title");
+    }
+
 }

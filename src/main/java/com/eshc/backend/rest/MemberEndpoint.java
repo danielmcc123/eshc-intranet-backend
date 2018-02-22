@@ -28,7 +28,9 @@ public class MemberEndpoint {
     }
 
     @PUT
-    public Member updateMember(Member member) {
+    @Path("/{id}")
+    public Member updateMember(@PathParam("id") Long id, Member member) {
+        System.out.println(id);
         return memberRepository.updateMember(member);
     }
 
@@ -48,6 +50,4 @@ public class MemberEndpoint {
     public Long countAllMembers() {
         return memberRepository.countAllMembers();
     }
-
-
 }

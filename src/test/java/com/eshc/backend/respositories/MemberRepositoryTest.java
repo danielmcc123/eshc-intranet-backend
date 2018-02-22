@@ -49,4 +49,14 @@ public class MemberRepositoryTest {
         memberRepository.deleteMember(memberRepository.getMembers().get(0).getId());
         assertEquals(Long.valueOf(0), memberRepository.countAllMembers());
     }
+
+    @Test
+    public void updateMember(){
+        Member member = new Member("Daniel","McCarragher");
+        memberRepository.createMember(member);
+        Member loadedMember = memberRepository.getMember(member.getId());
+        loadedMember.setFirstName("John");
+        Member updatedMember = memberRepository.updateMember(loadedMember);
+        assertEquals(updatedMember.getFirstName(), "John");
+    }
 }
