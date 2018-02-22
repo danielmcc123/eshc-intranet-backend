@@ -1,9 +1,16 @@
 package com.eshc.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDate;
+
 @Entity
 public class Member {
 
@@ -14,6 +21,10 @@ public class Member {
     private String firstName;
     private String LastName;
     private String homeAddress;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonDeserialize(using= LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate dob;
 
     //*************************************************Constructors*****************************************************
@@ -36,8 +47,8 @@ public class Member {
         this.homeAddress = homeAddress;
     }
 
-    public String getDob() {
-        return dob.toString();
+    public LocalDate getDob() {
+        return dob;
     }
 
     public void setDob(LocalDate dob) {

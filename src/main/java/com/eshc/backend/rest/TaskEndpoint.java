@@ -4,8 +4,7 @@ import com.eshc.backend.models.Task;
 import com.eshc.backend.respositories.TaskRepository;
 
 import javax.inject.Inject;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 
 import java.util.List;
 
@@ -17,22 +16,29 @@ public class TaskEndpoint {
     @Inject
     private TaskRepository taskRepository;
 
+    @POST
     public Task createTask(Task task) {
         return taskRepository.createTask(task);
     }
 
+    @GET
+    @Path("/{id")
     public Task getTask(Long id) {
         return taskRepository.getTask(id);
     }
 
+    @PUT
     public Task updateTask(Task task) {
         return taskRepository.updateTask(task);
     }
 
+    @DELETE
+    @Path("/{id}")
     public void deleteTask(Long id) {
         taskRepository.deleteTask(id);
     }
 
+    @GET
     public List<Task> getTasks() {
         return taskRepository.getTasks();
     }
