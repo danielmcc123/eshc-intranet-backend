@@ -8,7 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Task {
@@ -18,16 +18,15 @@ public class Task {
 
     private String description;
 
-    @OneToMany
-    private List<Note> notes;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Long> notes;
 
-    @OneToOne
-    private Member leadContributor;
+    private Long leadContributor;
 
-    @OneToMany
-    private List<Member> listOfContributors;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Long> listOfContributors;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dateTimeCreated;
@@ -53,27 +52,27 @@ public class Task {
         this.description = description;
     }
 
-    public List<Note> getNotes() {
+    public Set<Long> getNotes() {
         return notes;
     }
 
-    public void setNotes(List<Note> notes) {
+    public void setNotes(Set<Long> notes) {
         this.notes = notes;
     }
 
-    public Member getLeadContributor() {
+    public Long getLeadContributor() {
         return leadContributor;
     }
 
-    public void setLeadContributor(Member leadContributor) {
+    public void setLeadContributor(Long leadContributor) {
         this.leadContributor = leadContributor;
     }
 
-    public List<Member> getListOfContributors() {
+    public Set<Long> getListOfContributors() {
         return listOfContributors;
     }
 
-    public void setListOfContributors(List<Member> listOfContributors) {
+    public void setListOfContributors(Set<Long> listOfContributors) {
         this.listOfContributors = listOfContributors;
     }
 

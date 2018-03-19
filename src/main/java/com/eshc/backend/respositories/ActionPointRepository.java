@@ -23,6 +23,7 @@ public class ActionPointRepository {
         return actionPoint;
     }
 
+    @Transactional
     public ActionPoint getActionPoint(Long id){
         return entityManager.find(ActionPoint.class, id);
     }
@@ -38,6 +39,7 @@ public class ActionPointRepository {
         entityManager.remove(entityManager.getReference(ActionPoint.class, id));
     }
 
+    @Transactional(REQUIRED)
     public List<ActionPoint> getActionPoints(){
         TypedQuery<ActionPoint> query = entityManager.createQuery("SELECT a from ActionPoint a ORDER BY a.dateTime DESC", ActionPoint.class);
         return query.getResultList();
