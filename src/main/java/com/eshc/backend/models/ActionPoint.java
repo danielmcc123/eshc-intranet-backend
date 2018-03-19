@@ -9,7 +9,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class ActionPoint {
@@ -19,25 +19,24 @@ public class ActionPoint {
 
     private String title;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dateTime;
 
-    @OneToOne
-    private Member leadContributor;
+    private Long leadContributor;
 
-    @OneToMany
-    private List<Member> listOfContributors;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Long> listOfContributors;
 
-    @OneToMany
-    private List<Member> listOfWatchers;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Long> listOfWatchers;
 
-    @OneToMany
-    private List<Task> tasks;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Long> tasks;
 
-    @OneToMany
-    private List<Note> listOfNotes;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Long> listOfNotes;
 
     private Status currentStatus;
 
@@ -83,35 +82,33 @@ public class ActionPoint {
         this.dateTime = dateTime;
     }
 
-    public Member getLeadContributor() {
+    public Long getLeadContributor() {
         return leadContributor;
     }
 
-    public void setLeadContributor(Member leadContributor) {
+    public void setLeadContributor(Long leadContributor) {
         this.leadContributor = leadContributor;
     }
 
-    public List<Member> getListOfContributors() {
-        return listOfContributors;
-    }
+    public Set<Long> getListOfContributors() { return listOfContributors; }
 
-    public void setListOfContributors(List<Member> listOfContributors) {
+    public void setListOfContributors(Set<Long> listOfContributors) {
         this.listOfContributors = listOfContributors;
     }
 
-    public List<Member> getListOfWatchers() {
+    public Set<Long> getListOfWatchers() {
         return listOfWatchers;
     }
 
-    public void setListOfWatchers(List<Member> listOfWatchers) {
+    public void setListOfWatchers(Set<Long> listOfWatchers) {
         this.listOfWatchers = listOfWatchers;
     }
 
-    public List<Note> getListOfNotes() {
+    public Set<Long> getListOfNotes() {
         return listOfNotes;
     }
 
-    public void setListOfNotes(List<Note> listOfNotes) {
+    public void setListOfNotes(Set<Long> listOfNotes) {
         this.listOfNotes = listOfNotes;
     }
 
@@ -131,11 +128,10 @@ public class ActionPoint {
         this.description = description;
     }
 
-    public List<Task> getTasks() {
+    public Set<Long> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    public void setTasks(Set<Long> tasks) { this.tasks = tasks;
     }
 }

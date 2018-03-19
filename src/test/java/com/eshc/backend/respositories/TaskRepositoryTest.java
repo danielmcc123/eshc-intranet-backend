@@ -64,9 +64,9 @@ public class TaskRepositoryTest {
         memberRepository.createMember(member);
         taskRepository.createTask(task);
         Task loadedTask = taskRepository.getTask(task.getId());
-        loadedTask.setLeadContributor(member);
+        loadedTask.setLeadContributor(member.getId());
         Task updatedTask = taskRepository.updateTask(loadedTask);
-        assertEquals(updatedTask.getLeadContributor(), member);
+        assertEquals(memberRepository.getMember(updatedTask.getLeadContributor()), member);
     }
 
 }

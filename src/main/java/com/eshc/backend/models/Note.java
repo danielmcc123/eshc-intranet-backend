@@ -19,10 +19,9 @@ public class Note {
     @GeneratedValue
     private Long Id;
 
-    @OneToOne
-    private Member Author;
+    private Long Author;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dateTimeCreated;
@@ -43,11 +42,11 @@ public class Note {
         Id = id;
     }
 
-    public Member getAuthor() {
+    public Long getAuthor() {
         return Author;
     }
 
-    public void setAuthor(Member author) {
+    public void setAuthor(Long author) {
         Author = author;
     }
 

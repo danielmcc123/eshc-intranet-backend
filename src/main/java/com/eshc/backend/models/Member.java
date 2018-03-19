@@ -1,6 +1,8 @@
 package com.eshc.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -16,7 +18,6 @@ public class Member {
 
     //*************************************************Properties*******************************************************
     @Id
-    @GeneratedValue
     private Long id;
     private String firstName;
     private String LastName;
@@ -55,9 +56,7 @@ public class Member {
         this.dob = dob;
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
     public void setId(Long id) {
         this.id = id;
