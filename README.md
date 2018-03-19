@@ -3,10 +3,10 @@ Backend REST service used to manage cooperative living. It's main functionality 
 
 
 ## Tools Used
-Recommended IDE: Intellij Idea
-Build tool: Maven
-Documentation: Swagger (OpenAPI)
-Testing: Arquillian and JUnit
-Json de/serialisation: Jackson
-Server: WildFly (JBoss)
-Database: H2
+* Recommended IDE: Intellij Idea
+* Build tool: Maven
+* Documentation: Swagger (OpenAPI)
+* Testing: Arquillian and JUnit
+* Json de/serialisation: Jackson
+* Server: WildFly (JBoss)
+* Database: H2
