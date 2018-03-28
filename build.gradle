@@ -37,6 +37,7 @@ dependencies {
 	compile('org.springframework.session:spring-session-core')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	testCompile('com.h2database:h2')
+	runtime('com.h2database:h2')
 	runtime('org.postgresql:postgresql')
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
