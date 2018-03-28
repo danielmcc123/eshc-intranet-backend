@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <annotationProcessing>
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="eshc-intranet-backend" />
-      </profile>
-    </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="eshc-intranet-backend" target="1.8" />
+      <module name="eshc-backend_main" target="1.8" />
+      <module name="eshc-backend_test" target="1.8" />
+      <module name="eshc-intranet-backend_main" target="1.8" />
+      <module name="eshc-intranet-backend_test" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="HaskellBuildOptions">
+    <ghcPath>C:\Program Files\Haskell Platform\8.0.2\bin\ghc.exe</ghcPath>
+    <cabalPath>C:\Program Files\Haskell Platform\8.0.2\lib\extralibs\bin\cabal.exe</cabalPath>
   </component>
 </project>
