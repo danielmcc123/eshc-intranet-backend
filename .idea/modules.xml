@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/eshc-intranet-backend.iml" filepath="$PROJECT_DIR$/eshc-intranet-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eshc-intranet-backend.iml" filepath="$PROJECT_DIR$/.idea/modules/eshc-intranet-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eshc-intranet-backend_main.iml" filepath="$PROJECT_DIR$/.idea/modules/eshc-intranet-backend_main.iml" group="eshc-intranet-backend" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/eshc-intranet-backend_test.iml" filepath="$PROJECT_DIR$/.idea/modules/eshc-intranet-backend_test.iml" group="eshc-intranet-backend" />
     </modules>
   </component>
 </project>

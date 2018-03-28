@@ -1,79 +1,75 @@
 package com.eshc.backend.rest;
 
+
 import com.eshc.backend.models.Member;
 import com.eshc.backend.respositories.MemberRepository;
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@Path("/members")
-@Api("Members")
+@RestController
+@RequestMapping("/api/members")
 @Produces(APPLICATION_JSON)
 @Consumes(APPLICATION_JSON)
 public class MemberEndpoint {
 
-    @Inject
+    @Autowired
     private MemberRepository memberRepository;
 
-    @POST
     @ApiOperation(value = "Create a member", response = Member.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully created a Member"),
             @ApiResponse(code = 400, message = "Bad request")})
-    public Member createMember(@ApiParam(value = "Member to be created", required = true) Member member) {
-        return memberRepository.createMember(member);
+    @PostMapping
+    public Member createMember(@Valid @RequestBody Member member) {
+        return memberRepository.save(member);
     }
 
-    @GET
-    @Path("/{id}")
     @ApiOperation("Return a member given an Id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully retrieved a Member"),
             @ApiResponse(code = 204, message = "Not found")})
-    public Member getMember(@PathParam("id") Long id) {
-        return memberRepository.getMember(id);
+    @GetMapping("/{id}")
+    public Member getMember(@PathVariable Long id) {
+        return memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
     }
 
-    @PUT
-    @Path("/{id}")
     @ApiOperation(value = "Update a member", response = Member.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Update a Member"),
             @ApiResponse(code = 204, message = "Not found")})
-    public Member updateMember(@PathParam("id") Long id, @ApiParam(value = "Member to be created", required = true) Member member) {
-        System.out.println(id);
-        return memberRepository.updateMember(member);
+    @PutMapping("/{id}")
+    public Member updateMember(@PathVariable Long id, @Valid @RequestBody Member member) {
+        return memberRepository.save(member);
     }
 
-    @DELETE
-    @Path("/{id}")
     @ApiOperation("Delete a member")
-    @ApiResponses({
-            @ApiResponse(code = 204, message = "Member Deleted")
-    })
-    public void deleteMember(@PathParam("id") Long id) {
-        memberRepository.deleteMember(id);
+    @ApiResponses({@ApiResponse(code = 204, message = "Member Deleted")})
+    @DeleteMapping("/{id}")
+    public void deleteMember(@PathVariable Long id) {
+        memberRepository.deleteById(id);
     }
 
-    @GET
     @ApiOperation("Fetch all members")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Successfully fetched Members")
-    })
+    @ApiResponses({@ApiResponse(code = 200, message = "Successfully fetched Members")})
+    @GetMapping
     public List<Member> getMembers() {
-        return memberRepository.getMembers();
+        return memberRepository.findAll();
     }
 
-    @GET
-    @Path("/count")
     @ApiOperation("Count all members")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Successful Operation")
-    })
+    @ApiResponses({@ApiResponse(code = 200, message = "Successful Operation")})
+    @GetMapping("/count")
     public Long countAllMembers() {
-        return memberRepository.countAllMembers();
+        return memberRepository.count();
     }
 }
