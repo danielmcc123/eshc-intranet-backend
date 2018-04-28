@@ -12,6 +12,8 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -56,19 +58,26 @@ public class ActionPoint {
 
     private String description;
 
+    private String category;
+
 
     //*************************************************Constructors*****************************************************
     public ActionPoint() {
-
+        this.currentStatus = Status.UNSTARTED;
+        tasks = new HashSet<>();
+        listOfContributors = new HashSet<>();
+        listOfWatchers = new HashSet<>();
+        listOfNotes = new HashSet<>();
     }
 
     public ActionPoint(String title) {
+        this();
         this.title = title;
-        this.currentStatus = Status.UNSTARTED;
+
     }
 
     public ActionPoint(String title, Status status) {
-        this.title = title;
+        this(title);
         this.currentStatus = status;
     }
 
@@ -156,5 +165,38 @@ public class ActionPoint {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ActionPoint that = (ActionPoint) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(created, that.created) &&
+                Objects.equals(lastModified, that.lastModified) &&
+                Objects.equals(leadContributor, that.leadContributor) &&
+                Objects.equals(listOfContributors, that.listOfContributors) &&
+                Objects.equals(listOfWatchers, that.listOfWatchers) &&
+                Objects.equals(tasks, that.tasks) &&
+                Objects.equals(listOfNotes, that.listOfNotes) &&
+                currentStatus == that.currentStatus &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(category, that.category);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, title, created, lastModified, leadContributor, listOfContributors, listOfWatchers, tasks, listOfNotes, currentStatus, description, category);
     }
 }
