@@ -39,6 +39,9 @@ public class ActionPointRepositoryTests {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private TaskRepository taskRepository;
+
     @Before
     public void setup() {
         actionPoint1 = new ActionPoint("Test ActionPoint 1");
@@ -94,14 +97,14 @@ public class ActionPointRepositoryTests {
     public void addTasks_returnActionPointWithNewTasks() {
         Task task1 = new Task();
         Task task2 = new Task();
-        task1.setDescription("Test");
-        task2.setDescription("Test");
-        actionPoint1.getTasks().add(task1);
-        actionPoint1.getTasks().add(task2);
+        taskRepository.save(task1);
+        taskRepository.save(task2);
+        actionPoint1.getTasks().add(task1.getId());
+        actionPoint1.getTasks().add(task2.getId());
         ActionPoint savedActionPoint = actionPointRepository.save(actionPoint1);
-        final List<Task> loadedTasks = Lists.newArrayList(savedActionPoint.getTasks());
-        assertEquals(loadedTasks.get(0).getDescription(),task1.getDescription());
-        assertEquals(loadedTasks.get(1).getDescription(),task2.getDescription());
+        final List<Task> loadedTasks = Lists.newArrayList(taskRepository.findAllById(savedActionPoint.getTasks()));
+        assertEquals(loadedTasks.get(0),task1);
+        assertEquals(loadedTasks.get(1),task2);
     }
 
     @Test

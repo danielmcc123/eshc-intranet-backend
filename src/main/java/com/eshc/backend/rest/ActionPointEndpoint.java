@@ -78,7 +78,7 @@ public class ActionPointEndpoint {
     @Transactional
     public ActionPoint addTask(@PathVariable Long id, @Valid @RequestBody Task task){
         ActionPoint actionPoint = getActionPoint(id);
-        actionPoint.getTasks().add(task);
+        actionPoint.getTasks().add(task.getId());
         return actionPointRepository.save(actionPoint);
     }
 

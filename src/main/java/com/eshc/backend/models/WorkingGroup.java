@@ -25,7 +25,7 @@ public class WorkingGroup {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> nextMeetingActions;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<WorkingGroup> subWorkingGroups;
 
     public WorkingGroup() {
