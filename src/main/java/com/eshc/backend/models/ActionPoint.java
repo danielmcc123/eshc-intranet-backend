@@ -48,8 +48,8 @@ public class ActionPoint {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> listOfWatchers;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<Task> tasks;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Long> tasks;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> listOfNotes;
@@ -152,11 +152,11 @@ public class ActionPoint {
         this.description = description;
     }
 
-    public Set<Task> getTasks() {
+    public Set<Long> getTasks() {
         return tasks;
     }
 
-    public void setTasks(Set<Task> tasks) { this.tasks = tasks;
+    public void setTasks(Set<Long> tasks) { this.tasks = tasks;
     }
 
     public Long getVersion() {
