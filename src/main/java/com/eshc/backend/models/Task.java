@@ -15,7 +15,8 @@ import java.util.Set;
 @Audited
 public class Task {
     //*************************************************Properties*******************************************************
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long Id;
 
     private String description;

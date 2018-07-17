@@ -20,7 +20,8 @@ import java.util.Set;
 @Audited
 public class ActionPoint {
     //*************************************************Properties*******************************************************
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     @Version
@@ -114,7 +115,9 @@ public class ActionPoint {
         this.leadContributor = leadContributor;
     }
 
-    public Set<Long> getListOfContributors() { return listOfContributors; }
+    public Set<Long> getListOfContributors() {
+        return listOfContributors;
+    }
 
     public void setListOfContributors(Set<Long> listOfContributors) {
         this.listOfContributors = listOfContributors;
@@ -156,7 +159,8 @@ public class ActionPoint {
         return tasks;
     }
 
-    public void setTasks(Set<Long> tasks) { this.tasks = tasks;
+    public void setTasks(Set<Long> tasks) {
+        this.tasks = tasks;
     }
 
     public Long getVersion() {

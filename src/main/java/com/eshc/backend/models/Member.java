@@ -15,14 +15,15 @@ import java.time.LocalDate;
 public class Member {
 
     //*************************************************Properties*******************************************************
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
     private String firstName;
     private String LastName;
     private String homeAddress;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @JsonDeserialize(using= LocalDateDeserializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate dob;
 
@@ -54,7 +55,9 @@ public class Member {
         this.dob = dob;
     }
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;

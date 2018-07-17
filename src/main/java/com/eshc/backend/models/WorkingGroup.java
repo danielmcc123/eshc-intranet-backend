@@ -8,15 +8,17 @@ import java.util.*;
 @Entity
 public class WorkingGroup {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
     private String name;
     private String coConvener;
 
-    @ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private WorkingGroup parentWorkingGroup;
 
-    @JsonIgnore @ElementCollection(fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> actionPoints;
 
     @ElementCollection(fetch = FetchType.EAGER)

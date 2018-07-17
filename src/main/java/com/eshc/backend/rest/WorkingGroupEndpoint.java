@@ -32,41 +32,41 @@ public class WorkingGroupEndpoint {
 
     @ApiOperation(value = "Create a Working Group")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successfully created a Working Group"),
+            @ApiResponse(code = 200, message = "Successfully created Working Group"),
             @ApiResponse(code = 400, message = "Bad request")})
     @PostMapping
-    public WorkingGroup createWorkingGroup(@Valid @RequestBody WorkingGroup workingGroup){
+    public WorkingGroup createWorkingGroup(@Valid @RequestBody WorkingGroup workingGroup) {
         return workingGroupRepository.save(workingGroup);
     }
 
 
     @ApiOperation("Return a Working Group given an Id")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successfully retrieved an action point"),
+            @ApiResponse(code = 200, message = "Successfully retrieved Working Group"),
             @ApiResponse(code = 204, message = "Not found")})
     @GetMapping("/{id}")
-    public WorkingGroup getWorkingGroup(@PathVariable Long id){
+    public WorkingGroup getWorkingGroup(@PathVariable Long id) {
         return workingGroupRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
 
     @ApiOperation("Update a working Group")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Update an action point"),
+            @ApiResponse(code = 200, message = "Successfully updated Working Group"),
             @ApiResponse(code = 204, message = "Not found")})
     @PutMapping("/{id}")
     @Transactional
-    public WorkingGroup updateWorkingGroup(@PathVariable Long id, @Valid @RequestBody WorkingGroup workingGroup){
+    public WorkingGroup updateWorkingGroup(@PathVariable Long id, @Valid @RequestBody WorkingGroup workingGroup) {
         return workingGroupRepository.save(workingGroup);
     }
 
 
     @ApiOperation("Add an Action Point to a Working Group")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successfully retrieved an action point"),
+            @ApiResponse(code = 200, message = "Successfully added ActionPoint to Working Group"),
             @ApiResponse(code = 204, message = "Not found")})
     @PostMapping("/{workingId}/actionId")
-    public ActionPoint addActionPoint(@PathVariable Long workingId, @PathVariable Long actionId){
+    public ActionPoint addActionPoint(@PathVariable Long workingId, @PathVariable Long actionId) {
         WorkingGroup workingGroup = getWorkingGroup(workingId);
         ActionPoint actionPoint = actionPointEndpoint.getActionPoint(actionId);
         workingGroup.getActionPoints().add(actionPoint.getId());
@@ -74,12 +74,12 @@ public class WorkingGroupEndpoint {
     }
 
 
-    @ApiOperation("Return a Working Group given an Id")
+    @ApiOperation("Delete a Working Group given an Id")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successfully retrieved an action point"),
+            @ApiResponse(code = 200, message = "Successfully deleted a Working Group"),
             @ApiResponse(code = 204, message = "Not found")})
     @DeleteMapping("/{id}")
-    public void deleteWorkingGroup(@PathVariable Long id){
+    public void deleteWorkingGroup(@PathVariable Long id) {
         workingGroupRepository.deleteById(id);
     }
 
@@ -90,7 +90,7 @@ public class WorkingGroupEndpoint {
             @ApiImplicitParam(name = "size", value = "Size of each page", dataType = "string", paramType = "query"),
     })
     @GetMapping("/{id}/actions")
-    public Page<ActionPoint> getActionPoints(@PathVariable Long id, Pageable pageable){
+    public Page<ActionPoint> getActionPoints(@PathVariable Long id, Pageable pageable) {
         WorkingGroup workingGroup = getWorkingGroup(id);
         return actionPointEndpoint.getActionPointsFromList(workingGroup.getActionPoints(), pageable);
     }
