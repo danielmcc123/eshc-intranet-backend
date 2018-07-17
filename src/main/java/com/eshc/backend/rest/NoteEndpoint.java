@@ -26,7 +26,7 @@ public class NoteEndpoint {
 
     @ApiOperation(value = "Create a note", response = Note.class)
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successfully created a note"),
+            @ApiResponse(code = 200, message = "Successfully created note"),
             @ApiResponse(code = 400, message = "Bad request")})
     @PostMapping
     public Note createNote(@Valid @RequestBody Note note) {
@@ -35,16 +35,16 @@ public class NoteEndpoint {
 
     @ApiOperation("Return a note given an Id")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successfully retrieved a note"),
+            @ApiResponse(code = 200, message = "Successfully retrieved note"),
             @ApiResponse(code = 204, message = "Not found")})
     @GetMapping("/{id}")
     public Note getNote(@PathVariable Long id) {
-        return noteRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        return noteRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     @ApiOperation(value = "Update a note", response = Note.class)
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Update a note"),
+            @ApiResponse(code = 200, message = "Successfully updated note"),
             @ApiResponse(code = 204, message = "Not found")})
     @PutMapping("/{id}")
     public Note updateNote(@PathVariable Long id, @Valid @RequestBody Note note) {

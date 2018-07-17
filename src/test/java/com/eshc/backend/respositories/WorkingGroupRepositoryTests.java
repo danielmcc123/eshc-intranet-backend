@@ -75,7 +75,7 @@ public class WorkingGroupRepositoryTests {
     @Test
     public void fetchAll_returnListOfWorkingGroups() {
         List<WorkingGroup> loadedWorkingGroups = Lists.newArrayList(workingGroupRepository.findAll());
-        assertEquals(loadedWorkingGroups.size(), 2);
+        assertEquals(loadedWorkingGroups.size(), 3);
     }
 
     @Test
@@ -86,7 +86,7 @@ public class WorkingGroupRepositoryTests {
     }
 
     @Test
-    public void addActionPoints_returnWorkingGroup() {
+    public void addActionPoints_returnListOfActionPoints() {
         workingGroup1.getActionPoints().add(actionPoint1.getId());
         workingGroup1.getActionPoints().add(actionPoint2.getId());
         workingGroup1.getActionPoints().add(actionPoint3.getId());

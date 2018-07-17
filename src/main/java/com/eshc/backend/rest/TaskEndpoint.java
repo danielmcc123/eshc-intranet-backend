@@ -25,9 +25,9 @@ public class TaskEndpoint {
     @Autowired
     private TaskRepository taskRepository;
 
-    @ApiOperation(value = "Create a task", response = Task.class)
+    @ApiOperation(value = "Create a Task", response = Task.class)
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successfully created a task"),
+            @ApiResponse(code = 200, message = "Successfully created Task"),
             @ApiResponse(code = 400, message = "Bad request")})
     @PostMapping
     public Task createTask(@Valid @RequestBody Task task) {
@@ -36,23 +36,23 @@ public class TaskEndpoint {
 
     @ApiOperation("Return a task given an Id")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successfully retrieved a task"),
+            @ApiResponse(code = 200, message = "Successfully retrieved a Task"),
             @ApiResponse(code = 204, message = "Not found")})
     @GetMapping("/{id}")
     public Task getTask(@PathVariable Long id) {
-        return taskRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        return taskRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
-    @ApiOperation(value = "Update a task", response = Task.class)
+    @ApiOperation(value = "Update a Task", response = Task.class)
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Update a task"),
+            @ApiResponse(code = 200, message = "Successfully updated Task"),
             @ApiResponse(code = 204, message = "Not found")})
     @PutMapping("/{id}")
     public Task updateTask(@PathVariable Long id, @Valid @RequestBody Task task) {
         return taskRepository.save(task);
     }
 
-    @ApiOperation("Delete a note")
+    @ApiOperation("Delete a Task")
     @ApiResponses({@ApiResponse(code = 204, message = "Task Deleted")})
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable Long id) {
@@ -60,13 +60,13 @@ public class TaskEndpoint {
     }
 
     @ApiOperation("Fetch all tasks")
-    @ApiResponses({@ApiResponse(code = 200, message = "Successfully fetched tasks")})
+    @ApiResponses({@ApiResponse(code = 200, message = "Successfully fetched Tasks")})
     @GetMapping
     public List<Task> getTasks() {
         return taskRepository.findAll();
     }
 
-    @ApiOperation("Count all tasks")
+    @ApiOperation("Count all Tasks")
     @ApiResponses({@ApiResponse(code = 200, message = "Successful Operation")})
     @GetMapping("/count")
     public Long countAllTasks() {

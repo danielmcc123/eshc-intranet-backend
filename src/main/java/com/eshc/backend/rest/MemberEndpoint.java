@@ -25,7 +25,7 @@ public class MemberEndpoint {
     @Autowired
     private MemberRepository memberRepository;
 
-    @ApiOperation(value = "Create a member", response = Member.class)
+    @ApiOperation(value = "Create a Member", response = Member.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully created a Member"),
             @ApiResponse(code = 400, message = "Bad request")})
@@ -34,7 +34,7 @@ public class MemberEndpoint {
         return memberRepository.save(member);
     }
 
-    @ApiOperation("Return a member given an Id")
+    @ApiOperation("Return a Member given an Id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully retrieved a Member"),
             @ApiResponse(code = 204, message = "Not found")})
@@ -43,7 +43,7 @@ public class MemberEndpoint {
         return memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
     }
 
-    @ApiOperation(value = "Update a member", response = Member.class)
+    @ApiOperation(value = "Update a Member", response = Member.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Update a Member"),
             @ApiResponse(code = 204, message = "Not found")})
@@ -66,7 +66,7 @@ public class MemberEndpoint {
         return memberRepository.findAll();
     }
 
-    @ApiOperation("Count all members")
+    @ApiOperation("Count all Members")
     @ApiResponses({@ApiResponse(code = 200, message = "Successful Operation")})
     @GetMapping("/count")
     public Long countAllMembers() {

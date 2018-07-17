@@ -39,7 +39,7 @@ public class ActionPointEndpoint {
 
     @ApiOperation(value = "Create an action point", response = ActionPoint.class)
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successfully created aan Action Point"),
+            @ApiResponse(code = 200, message = "Successfully created an ActionPoint"),
             @ApiResponse(code = 400, message = "Bad request")})
     @PostMapping
     public ActionPoint createActionPoint(@Valid @RequestBody ActionPoint actionPoint) {
@@ -63,9 +63,9 @@ public class ActionPointEndpoint {
     @Transactional
     public ActionPoint updateActionPoint(@PathVariable Long id, @Valid @RequestBody ActionPoint actionPoint) {
         ActionPoint before = getActionPoint(id);
-        if(before.getVersion().equals(actionPoint.getVersion())){
-        return actionPointRepository.save(actionPoint);
-        }else{
+        if (before.getVersion().equals(actionPoint.getVersion())) {
+            return actionPointRepository.save(actionPoint);
+        } else {
             throw new OutdatedEntityVersionException();
         }
     }
@@ -76,21 +76,25 @@ public class ActionPointEndpoint {
             @ApiResponse(code = 204, message = "Not found")})
     @PutMapping("/addtaskto/{id}")
     @Transactional
-    public ActionPoint addTask(@PathVariable Long id, @Valid @RequestBody Task task){
+    public ActionPoint addTask(@PathVariable Long id, @Valid @RequestBody Task task) {
         ActionPoint actionPoint = getActionPoint(id);
         actionPoint.getTasks().add(task.getId());
         return actionPointRepository.save(actionPoint);
     }
 
     @ApiOperation("Delete an action point")
-    @ApiResponses({@ApiResponse(code = 204, message = "Member Deleted")})
+    @ApiResponses({@ApiResponse(code = 204, message = "ActionPoint Deleted")})
     @DeleteMapping("/{id}")
     public void deleteActionPoint(@PathVariable(value = "id") Long id) {
-        actionPointRepository.deleteById(id);
+        try {
+            actionPointRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new NoSuchElementException("No such Note with id " + id);
+        }
     }
 
     @ApiOperation(
-            value ="Fetch all action points",
+            value = "Fetch all Actionpoints",
             notes = "Pagination available at end of url:` ?page=1&size=10")
     @ApiResponses({@ApiResponse(code = 200, message = "Successfully fetched Action Points")})
     @GetMapping
@@ -109,11 +113,11 @@ public class ActionPointEndpoint {
 
 
     @ApiOperation(
-            value ="Fetch all action points",
+            value = "Fetch Actionpoints from list of ids",
             notes = "Pagination available at end of url:` ?page=1&size=10")
     @ApiResponses({@ApiResponse(code = 200, message = "Successfully fetched Action Points")})
     @GetMapping("/fromlist/{ids}")
-    public Page<ActionPoint> getActionPointsFromList(Set<Long> ids, Pageable pageable){
+    public Page<ActionPoint> getActionPointsFromList(@PathVariable Set<Long> ids, Pageable pageable) {
         Iterable<ActionPoint> actionPoints = actionPointRepository.findAllById(ids);
         List<ActionPoint> actionPointList = Lists.newArrayList(actionPoints);
         return new PageImpl<>(actionPointList, pageable, actionPointList.size());
