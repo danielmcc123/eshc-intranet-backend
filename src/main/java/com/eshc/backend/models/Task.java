@@ -16,7 +16,7 @@ import java.util.Set;
 public class Task {
     //*************************************************Properties*******************************************************
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Long Id;
 
     private String description;

@@ -25,6 +25,7 @@ import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/actionpoints")
 @Produces(APPLICATION_JSON)
@@ -63,6 +64,7 @@ public class ActionPointEndpoint {
     @Transactional
     public ActionPoint updateActionPoint(@PathVariable Long id, @Valid @RequestBody ActionPoint actionPoint) {
         ActionPoint before = getActionPoint(id);
+        if(before.equals(actionPoint)) return actionPoint;
         if (before.getVersion().equals(actionPoint.getVersion())) {
             return actionPointRepository.save(actionPoint);
         } else {

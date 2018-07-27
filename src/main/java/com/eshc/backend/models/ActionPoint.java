@@ -21,7 +21,7 @@ import java.util.Set;
 public class ActionPoint {
     //*************************************************Properties*******************************************************
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Long id;
 
     @Version
@@ -186,8 +186,6 @@ public class ActionPoint {
         ActionPoint that = (ActionPoint) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(title, that.title) &&
-                Objects.equals(created, that.created) &&
-                Objects.equals(lastModified, that.lastModified) &&
                 Objects.equals(leadContributor, that.leadContributor) &&
                 Objects.equals(listOfContributors, that.listOfContributors) &&
                 Objects.equals(listOfWatchers, that.listOfWatchers) &&
