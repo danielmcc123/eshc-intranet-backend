@@ -1,6 +1,5 @@
 package com.eshc.backend.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.*;
@@ -9,7 +8,7 @@ import java.util.*;
 public class WorkingGroup {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String coConvener;
@@ -17,7 +16,6 @@ public class WorkingGroup {
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private WorkingGroup parentWorkingGroup;
 
-    @JsonIgnore
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> actionPoints;
 

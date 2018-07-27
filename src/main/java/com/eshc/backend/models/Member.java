@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
 
@@ -16,7 +17,7 @@ public class Member {
 
     //*************************************************Properties*******************************************************
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String LastName;

@@ -65,11 +65,12 @@ public class WorkingGroupEndpoint {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successfully added ActionPoint to Working Group"),
             @ApiResponse(code = 204, message = "Not found")})
-    @PostMapping("/{workingId}/actionId")
+    @PostMapping("/{workingId}/{actionId}")
     public ActionPoint addActionPoint(@PathVariable Long workingId, @PathVariable Long actionId) {
         WorkingGroup workingGroup = getWorkingGroup(workingId);
         ActionPoint actionPoint = actionPointEndpoint.getActionPoint(actionId);
         workingGroup.getActionPoints().add(actionPoint.getId());
+        workingGroupRepository.save(workingGroup);
         return actionPoint;
     }
 
