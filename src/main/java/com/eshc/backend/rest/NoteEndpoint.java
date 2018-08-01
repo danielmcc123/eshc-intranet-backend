@@ -15,6 +15,7 @@ import java.util.NoSuchElementException;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/notes")
 @Produces(APPLICATION_JSON)

@@ -1,16 +1,16 @@
 package com.eshc.backend.rest;
 
 import com.eshc.backend.models.ActionPoint;
+import com.eshc.backend.models.Note;
 import com.eshc.backend.models.Task;
 import com.eshc.backend.respositories.ActionPointRepository;
+import com.eshc.backend.respositories.NoteRepository;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -34,6 +34,9 @@ public class ActionPointEndpoint {
 
     @Autowired
     private ActionPointRepository actionPointRepository;
+
+    @Autowired
+    private NoteRepository noteRepository;
 
     @Autowired
     private EntityManager entityManager;
@@ -84,6 +87,19 @@ public class ActionPointEndpoint {
         return actionPointRepository.save(actionPoint);
     }
 
+    @ApiOperation(value = "Add a note", response = ActionPoint.class)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Task added to Actionpoint"),
+            @ApiResponse(code = 204, message = "Not found")})
+    @PutMapping("/addnoteto/{id}")
+    @Transactional
+    public ActionPoint addNote(@PathVariable Long id, @Valid @RequestBody Note note) {
+        ActionPoint actionPoint = getActionPoint(id);
+        Note savedNote = noteRepository.save(note);
+        actionPoint.getListOfNotes().add(savedNote.getId());
+        return actionPointRepository.save(actionPoint);
+    }
+
     @ApiOperation("Delete an action point")
     @ApiResponses({@ApiResponse(code = 204, message = "ActionPoint Deleted")})
     @DeleteMapping("/{id}")
@@ -120,7 +136,10 @@ public class ActionPointEndpoint {
     @ApiResponses({@ApiResponse(code = 200, message = "Successfully fetched Action Points")})
     @GetMapping("/fromlist/{ids}")
     public Page<ActionPoint> getActionPointsFromList(@PathVariable Set<Long> ids, Pageable pageable) {
-        Iterable<ActionPoint> actionPoints = actionPointRepository.findAllById(ids);
+        final PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(), new Sort(
+                new Sort.Order(Sort.Direction.DESC, "lastModified")
+        ));
+        Iterable<ActionPoint> actionPoints = actionPointRepository.findByIdIn(ids, pageRequest);
         List<ActionPoint> actionPointList = Lists.newArrayList(actionPoints);
         return new PageImpl<>(actionPointList, pageable, actionPointList.size());
     }
