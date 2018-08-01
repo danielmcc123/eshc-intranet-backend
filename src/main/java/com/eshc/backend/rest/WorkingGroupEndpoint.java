@@ -18,6 +18,7 @@ import java.util.NoSuchElementException;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+@CrossOrigin
 @RestController
 @RequestMapping("api/working")
 @Produces(APPLICATION_JSON)
@@ -94,6 +95,16 @@ public class WorkingGroupEndpoint {
     public Page<ActionPoint> getActionPoints(@PathVariable Long id, Pageable pageable) {
         WorkingGroup workingGroup = getWorkingGroup(id);
         return actionPointEndpoint.getActionPointsFromList(workingGroup.getActionPoints(), pageable);
+    }
+
+
+    @ApiOperation("Get all Working Groups in the system")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Successfully retrieved Working Groups"),
+            @ApiResponse(code = 204, message = "Not found")})
+    @GetMapping
+    public Page<WorkingGroup> getAllWorkingGroups(Pageable pageable){
+            return workingGroupRepository.findAll(pageable);
     }
 
 }

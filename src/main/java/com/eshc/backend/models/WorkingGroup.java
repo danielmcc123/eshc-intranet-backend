@@ -1,6 +1,8 @@
 package com.eshc.backend.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -16,6 +18,7 @@ public class WorkingGroup {
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private WorkingGroup parentWorkingGroup;
 
+    @JsonIgnore
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> actionPoints;
 

@@ -16,6 +16,7 @@ import java.util.NoSuchElementException;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/members")
 @Produces(APPLICATION_JSON)
