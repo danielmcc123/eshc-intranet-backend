@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.0.RELEASE'
+		springBootVersion = '2.0.5.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -28,23 +28,34 @@ configurations {
 	providedRuntime
 }
 
+ext {
+	keycloakVersion = '4.5.0.Final'
+}
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-cache')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-jersey')
-	compile('org.springframework.boot:spring-boot-starter-security')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.session:spring-session-core')
+//	implementation('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.session:spring-session-core')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	testCompile('com.h2database:h2')
 	runtime('com.h2database:h2')
 	runtime('org.postgresql:postgresql')
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.springframework.security:spring-security-test')
-	compile group: 'org.hibernate', name: 'hibernate-envers', version: '5.2.15.Final'
+//	testCompile('org.springframework.security:spring-security-test')
+    compile group: 'org.hibernate', name: 'hibernate-envers', version: '5.2.15.Final'
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.15.Final'
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.15.Final'
+	compile group: 'org.keycloak', name: 'keycloak-spring-boot-starter', version: '4.5.0.Final'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.keycloak.bom:keycloak-adapter-bom:${keycloakVersion}"
+	}
 }

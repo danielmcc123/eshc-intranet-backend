@@ -25,7 +25,7 @@ import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/actionpoints")
 @Produces(APPLICATION_JSON)
