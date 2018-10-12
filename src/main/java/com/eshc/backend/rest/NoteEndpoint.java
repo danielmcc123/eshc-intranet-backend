@@ -2,6 +2,7 @@ package com.eshc.backend.rest;
 
 import com.eshc.backend.models.Note;
 import com.eshc.backend.respositories.NoteRepository;
+import com.eshc.backend.utils.security.KeycloakTokenUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -10,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
+import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/notes")
 @Produces(APPLICATION_JSON)
@@ -30,7 +32,8 @@ public class NoteEndpoint {
             @ApiResponse(code = 200, message = "Successfully created note"),
             @ApiResponse(code = 400, message = "Bad request")})
     @PostMapping
-    public Note createNote(@Valid @RequestBody Note note) {
+    public Note createNote(@Valid @RequestBody Note note, Principal principal) {
+        note.setAuthor(KeycloakTokenUtil.GetUserDetails(principal).getId());
         return noteRepository.save(note);
     }
 
