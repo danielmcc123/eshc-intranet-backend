@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 @RestController
 @RequestMapping("api/working")
 @Produces(APPLICATION_JSON)

@@ -5,6 +5,7 @@ import com.eshc.backend.models.Note;
 import com.eshc.backend.models.Task;
 import com.eshc.backend.respositories.ActionPointRepository;
 import com.eshc.backend.respositories.NoteRepository;
+import com.eshc.backend.utils.security.KeycloakTokenUtil;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -19,6 +20,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
+import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -46,7 +48,8 @@ public class ActionPointEndpoint {
             @ApiResponse(code = 200, message = "Successfully created an ActionPoint"),
             @ApiResponse(code = 400, message = "Bad request")})
     @PostMapping
-    public ActionPoint createActionPoint(@Valid @RequestBody ActionPoint actionPoint) {
+    public ActionPoint createActionPoint(@Valid @RequestBody ActionPoint actionPoint, Principal principal) {
+        actionPoint.setLeadContributor(KeycloakTokenUtil.GetUserDetails(principal).getId());
         return actionPointRepository.save(actionPoint);
     }
 
@@ -121,7 +124,7 @@ public class ActionPointEndpoint {
     }
 
 
-    @ApiOperation("Count all members")
+    @ApiOperation("Count all Actionpoints")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successful Operation")})
     @GetMapping("/count")

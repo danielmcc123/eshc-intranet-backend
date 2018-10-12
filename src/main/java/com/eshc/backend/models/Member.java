@@ -36,7 +36,7 @@ public class Member {
     public Member(String firstName, String lastName) {
         this.firstName = firstName;
         LastName = lastName;
-    }
+    }   
 
     //*********************************************Getters and Setters**************************************************
 
