@@ -2,10 +2,12 @@ package com.eshc.backend.rest;
 
 import com.eshc.backend.models.Task;
 import com.eshc.backend.respositories.TaskRepository;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,6 +15,7 @@ import javax.ws.rs.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -63,8 +66,8 @@ public class TaskEndpoint {
     @ApiOperation("Fetch all tasks")
     @ApiResponses({@ApiResponse(code = 200, message = "Successfully fetched Tasks")})
     @GetMapping
-    public List<Task> getTasks() {
-        return taskRepository.findAll();
+    public Page<Task> getTasks(Pageable pageable) {
+        return taskRepository.findAll(pageable);
     }
 
     @ApiOperation("Count all Tasks")
@@ -72,6 +75,20 @@ public class TaskEndpoint {
     @GetMapping("/count")
     public Long countAllTasks() {
         return taskRepository.count();
+
+    }
+
+    @ApiOperation(
+            value = "Fetch Tasks from list of ids",
+            notes = "Pagination available at end of url:` ?page=1&size=10")
+    @ApiResponses({@ApiResponse(code = 200, message = "Successfully fetched Tasks")})
+    @GetMapping("/fromlist/{ids}")
+    public Page<Task> getAllTasksFromList(@PathVariable Set<Long> ids, Pageable pageable) {
+        final PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(), new Sort(
+                new Sort.Order(Sort.Direction.ASC, "dateTimeCreated")));
+        Iterable<Task> notes = taskRepository.findByIdIn(ids, pageRequest);
+        List<Task> taskList = Lists.newArrayList(notes);
+        return new PageImpl<>(taskList, pageable, taskList.size());
     }
 
 

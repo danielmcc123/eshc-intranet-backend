@@ -3,10 +3,12 @@ package com.eshc.backend.rest;
 import com.eshc.backend.models.Note;
 import com.eshc.backend.respositories.NoteRepository;
 import com.eshc.backend.utils.security.KeycloakTokenUtil;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,6 +16,7 @@ import javax.ws.rs.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -65,8 +68,8 @@ public class NoteEndpoint {
     @ApiOperation("Fetch all notes")
     @ApiResponses({@ApiResponse(code = 200, message = "Successfully fetched notes")})
     @GetMapping
-    public List<Note> getNotes() {
-        return noteRepository.findAll();
+    public Page<Note> getNotes(Pageable pageable) {
+        return noteRepository.findAll(pageable);
     }
 
     @ApiOperation("Count all Notes")
@@ -74,5 +77,19 @@ public class NoteEndpoint {
     @GetMapping("/count")
     public Long countAllNotes() {
         return noteRepository.count();
+    }
+
+
+    @ApiOperation(
+            value = "Fetch Notes from list of ids",
+            notes = "Pagination available at end of url:` ?page=1&size=10")
+    @ApiResponses({@ApiResponse(code = 200, message = "Successfully fetched Notes")})
+    @GetMapping("/fromlist/{ids}")
+    public Page<Note> getAllNotesFromList(@PathVariable Set<Long> ids, Pageable pageable) {
+        final PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(), new Sort(
+                new Sort.Order(Sort.Direction.ASC, "dateTimeCreated")));
+        Iterable<Note> notes = noteRepository.findByIdIn(ids, pageRequest);
+        List<Note> noteList = Lists.newArrayList(notes);
+        return new PageImpl<>(noteList, pageable, noteList.size());
     }
 }

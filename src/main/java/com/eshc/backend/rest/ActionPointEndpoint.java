@@ -7,9 +7,7 @@ import com.eshc.backend.respositories.ActionPointRepository;
 import com.eshc.backend.respositories.NoteRepository;
 import com.eshc.backend.utils.security.KeycloakTokenUtil;
 import com.google.common.collect.Lists;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +40,12 @@ public class ActionPointEndpoint {
 
     @Autowired
     private EntityManager entityManager;
+
+    @Autowired
+    private NoteEndpoint noteEndpoint;
+
+    @Autowired
+    private TaskEndpoint taskEndpoint;
 
     @ApiOperation(value = "Create an action point", response = ActionPoint.class)
     @ApiResponses({
@@ -145,6 +149,54 @@ public class ActionPointEndpoint {
         Iterable<ActionPoint> actionPoints = actionPointRepository.findByIdIn(ids, pageRequest);
         List<ActionPoint> actionPointList = Lists.newArrayList(actionPoints);
         return new PageImpl<>(actionPointList, pageable, actionPointList.size());
+    }
+
+    @ApiOperation("Get all Notes for a Action Point")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "Page no", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "size", value = "Size of each page", dataType = "string", paramType = "query"),
+    })
+    @GetMapping("/{id}/notes")
+    public Page<Note> getNotesFromActionPoint(@PathVariable Long id, Pageable pageable) {
+        ActionPoint actionPoint = getActionPoint(id);
+        return noteEndpoint.getAllNotesFromList(actionPoint.getListOfNotes(), pageable);
+    }
+
+    @ApiOperation("Get all Tasks for a Action Point")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "Page no", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "size", value = "Size of each page", dataType = "string", paramType = "query"),
+    })
+    @GetMapping("/{id}/tasks")
+    public Page<Task> getTasksFromActionPoint(@PathVariable Long id, Pageable pageable) {
+        ActionPoint actionPoint = getActionPoint(id);
+        return taskEndpoint.getAllTasksFromList(actionPoint.getTasks(), pageable);
+    }
+
+    @ApiOperation("Add an Note to a Action Point")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Successfully added Note to Action Point"),
+            @ApiResponse(code = 204, message = "Not found")})
+    @PostMapping("/{actionId}/note/{noteId}")
+    public ActionPoint addNoteToActionPoint(@PathVariable Long actionId, @PathVariable Long noteId) {
+        ActionPoint actionPoint = getActionPoint(actionId);
+        Note note = noteEndpoint.getNote(noteId);
+        actionPoint.getListOfNotes().add(note.getId());
+        actionPointRepository.save(actionPoint);
+        return actionPoint;
+    }
+
+    @ApiOperation("Add an Task to a Action Point")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Successfully added Task to Action Point"),
+            @ApiResponse(code = 204, message = "Not found")})
+    @PostMapping("/{actionId}/task/{taskId}")
+    public ActionPoint addTaskToActionPoint(@PathVariable Long actionId, @PathVariable Long taskId) {
+        ActionPoint actionPoint = getActionPoint(actionId);
+        Task task = taskEndpoint.getTask(taskId);
+        actionPoint.getTasks().add(task.getId());
+        actionPointRepository.save(actionPoint);
+        return actionPoint;
     }
 
 //    @GET

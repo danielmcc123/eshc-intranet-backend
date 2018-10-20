@@ -18,9 +18,9 @@ public class Note {
     //*************************************************Properties*******************************************************
     @Id
     @GeneratedValue(strategy =GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
-    private Long Author;
+    private Long author;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -37,19 +37,19 @@ public class Note {
 
     //*********************************************Getters and Setters**************************************************
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public Long getAuthor() {
-        return Author;
+        return author;
     }
 
     public void setAuthor(Long author) {
-        Author = author;
+        this.author = author;
     }
 
     public LocalDateTime getDateTimeCreated() {
