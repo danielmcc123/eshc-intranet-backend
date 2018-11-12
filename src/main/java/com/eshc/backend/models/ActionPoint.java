@@ -1,45 +1,23 @@
 package com.eshc.backend.models;
 
 import com.eshc.backend.working.Status;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Audited
-public class ActionPoint {
+public class ActionPoint extends BaseEntity {
     //*************************************************Properties*******************************************************
-    @Id
-    @GeneratedValue(strategy =GenerationType.IDENTITY)
-    private Long id;
 
-    @Version
-    private Long version;
-
+    @NotBlank(message = "Cannot be blank")
+    @Size(min = 2, message = "Please supply a useful title")
     private String title;
-
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @CreationTimestamp
-    private LocalDateTime created;
-
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @UpdateTimestamp
-    private LocalDateTime lastModified;
 
     private Long leadContributor;
 
@@ -83,28 +61,12 @@ public class ActionPoint {
     }
 
     //*********************************************Getters and Setters**************************************************
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
     }
 
     public Long getLeadContributor() {
@@ -163,14 +125,6 @@ public class ActionPoint {
         this.tasks = tasks;
     }
 
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
-
     public String getCategory() {
         return category;
     }
@@ -199,6 +153,6 @@ public class ActionPoint {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, title, created, lastModified, leadContributor, listOfContributors, listOfWatchers, tasks, listOfNotes, currentStatus, description, category);
+        return Objects.hash(id, title, leadContributor, listOfContributors, listOfWatchers, tasks, listOfNotes, currentStatus, description, category);
     }
 }

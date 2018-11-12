@@ -21,8 +21,8 @@ import org.springframework.security.web.authentication.session.RegisterSessionAu
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 
-//@SpringBootApplication(exclude = org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class)
-@SpringBootApplication
+@SpringBootApplication(exclude = org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class)
+//@SpringBootApplication
 public class EshcBackendApplication {
 
 	public static void main(String[] args) {
@@ -30,9 +30,9 @@ public class EshcBackendApplication {
 	}
 }
 
-@Configuration
-@EnableWebSecurity
-@ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
+//@Configuration
+//@EnableWebSecurity
+//@ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
 class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter
 {
     /**
