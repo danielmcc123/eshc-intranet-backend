@@ -25,19 +25,19 @@ public abstract class BaseEntity {
     @Version
     private Long version;
 
-    @JsonProperty(access = READ_ONLY)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @CreationTimestamp
-    private LocalDateTime dateTimeCreated;
+    @Column(updatable=false)
+    private LocalDateTime created;
 
     @JsonProperty(access = READ_ONLY)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @UpdateTimestamp
-    private LocalDateTime lastModified;
+    private LocalDateTime updated;
 
     public Long getId() {
         return id;
@@ -55,21 +55,21 @@ public abstract class BaseEntity {
         this.version = version;
     }
 
-    public LocalDateTime getDateTimeCreated() {
-        return dateTimeCreated;
+    public LocalDateTime getCreated() {
+        return created;
     }
 
-    public void setDateTimeCreated(LocalDateTime dateTimeCreated) {
-        this.dateTimeCreated = dateTimeCreated;
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
     }
 
-    public LocalDateTime getLastModified() {
-        return lastModified;
+    public LocalDateTime getUpdated() {
+        return updated;
     }
 
     @JsonIgnore
-    public void setLastModified(LocalDateTime lastModified) {
-        this.lastModified = lastModified;
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
     }
 
 }

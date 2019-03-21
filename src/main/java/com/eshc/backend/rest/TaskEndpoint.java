@@ -53,6 +53,7 @@ public class TaskEndpoint {
             @ApiResponse(code = 204, message = "Not found")})
     @PutMapping("/{id}")
     public Task updateTask(@PathVariable Long id, @Valid @RequestBody Task task) {
+
         return taskRepository.save(task);
     }
 
@@ -85,7 +86,7 @@ public class TaskEndpoint {
     @GetMapping("/fromlist/{ids}")
     public Page<Task> getAllTasksFromList(@PathVariable Set<Long> ids, Pageable pageable) {
         final PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(), new Sort(
-                new Sort.Order(Sort.Direction.ASC, "dateTimeCreated")));
+                new Sort.Order(Sort.Direction.ASC, "created")));
         Iterable<Task> notes = taskRepository.findByIdIn(ids, pageRequest);
         List<Task> taskList = Lists.newArrayList(notes);
         return new PageImpl<>(taskList, pageable, taskList.size());

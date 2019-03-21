@@ -4,15 +4,15 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-public class Note extends BaseEntity {
+public class Comment extends BaseEntity {
     //*************************************************Properties*******************************************************
     private Long author;
 
-    @NotBlank
-    private String noteBody;
+    @NotBlank(message = "Comment must not be empty")
+    private String body;
 
     //*************************************************Constructors*****************************************************
-    public Note() {
+    public Comment() {
 
     }
     //*********************************************Getters and Setters**************************************************
@@ -25,11 +25,11 @@ public class Note extends BaseEntity {
         this.author = author;
     }
 
-    public String getNoteBody() {
-        return noteBody;
+    public String getBody() {
+        return body;
     }
 
-    public void setNoteBody(String noteBody) {
-        this.noteBody = noteBody;
+    public void setBody(String body) {
+        this.body = body;
     }
 }

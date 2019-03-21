@@ -17,7 +17,9 @@ public class Task extends BaseEntity {
     private Long leadContributor;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<Long> listOfContributors;
+    private Set<Long> contributors;
+
+    private boolean completed;
     //*************************************************Constructors*****************************************************
     public Task() {
     }
@@ -47,11 +49,19 @@ public class Task extends BaseEntity {
         this.leadContributor = leadContributor;
     }
 
-    public Set<Long> getListOfContributors() {
-        return listOfContributors;
+    public Set<Long> getContributors() {
+        return contributors;
     }
 
-    public void setListOfContributors(Set<Long> listOfContributors) {
-        this.listOfContributors = listOfContributors;
+    public void setContributors(Set<Long> contributors) {
+        this.contributors = contributors;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

@@ -1,11 +1,10 @@
 package com.eshc.backend.rest;
 
 import com.eshc.backend.models.ActionPoint;
-import com.eshc.backend.models.Note;
+import com.eshc.backend.models.Comment;
 import com.eshc.backend.models.Task;
 import com.eshc.backend.respositories.ActionPointRepository;
-import com.eshc.backend.respositories.NoteRepository;
-import com.eshc.backend.utils.security.KeycloakTokenUtil;
+import com.eshc.backend.respositories.CommentRepository;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +35,13 @@ public class ActionPointEndpoint {
     private ActionPointRepository actionPointRepository;
 
     @Autowired
-    private NoteRepository noteRepository;
+    private CommentRepository commentRepository;
 
     @Autowired
     private EntityManager entityManager;
 
     @Autowired
-    private NoteEndpoint noteEndpoint;
+    private CommentEndpoint commentEndpoint;
 
     @Autowired
     private TaskEndpoint taskEndpoint;
@@ -53,7 +52,7 @@ public class ActionPointEndpoint {
             @ApiResponse(code = 400, message = "Bad request")})
     @PostMapping
     public ActionPoint createActionPoint(@Valid @RequestBody ActionPoint actionPoint, Principal principal) {
-        actionPoint.setLeadContributor(KeycloakTokenUtil.GetUserDetails(principal).getId());
+//        actionPoint.setLeadContributor(KeycloakTokenUtil.GetUserDetails(principal).getId());
         return actionPointRepository.save(actionPoint);
     }
 
@@ -94,16 +93,16 @@ public class ActionPointEndpoint {
         return actionPointRepository.save(actionPoint);
     }
 
-    @ApiOperation(value = "Add a note", response = ActionPoint.class)
+    @ApiOperation(value = "Add a comment", response = ActionPoint.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Task added to Actionpoint"),
             @ApiResponse(code = 204, message = "Not found")})
-    @PutMapping("/addnoteto/{id}")
+    @PutMapping("/addcommentto/{id}")
     @Transactional
-    public ActionPoint addNote(@PathVariable Long id, @Valid @RequestBody Note note) {
+    public ActionPoint addNote(@PathVariable Long id, @Valid @RequestBody Comment comment) {
         ActionPoint actionPoint = getActionPoint(id);
-        Note savedNote = noteRepository.save(note);
-        actionPoint.getListOfNotes().add(savedNote.getId());
+        Comment savedComment = commentRepository.save(comment);
+        actionPoint.getListOfComments().add(savedComment.getId());
         return actionPointRepository.save(actionPoint);
     }
 
@@ -114,7 +113,7 @@ public class ActionPointEndpoint {
         try {
             actionPointRepository.deleteById(id);
         } catch (Exception e) {
-            throw new NoSuchElementException("No such Note with id " + id);
+            throw new NoSuchElementException("No such Comment with id " + id);
         }
     }
 
@@ -144,25 +143,25 @@ public class ActionPointEndpoint {
     @GetMapping("/fromlist/{ids}")
     public Page<ActionPoint> getActionPointsFromList(@PathVariable Set<Long> ids, Pageable pageable) {
         final PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(), new Sort(
-                new Sort.Order(Sort.Direction.DESC, "lastModified")
+                new Sort.Order(Sort.Direction.DESC, "updated")
         ));
         Iterable<ActionPoint> actionPoints = actionPointRepository.findByIdIn(ids, pageRequest);
         List<ActionPoint> actionPointList = Lists.newArrayList(actionPoints);
         return new PageImpl<>(actionPointList, pageable, actionPointList.size());
     }
 
-    @ApiOperation("Get all Notes for a Action Point")
+    @ApiOperation("Get all comments for an Action Point")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "Page no", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "Size of each page", dataType = "string", paramType = "query"),
     })
-    @GetMapping("/{id}/notes")
-    public Page<Note> getNotesFromActionPoint(@PathVariable Long id, Pageable pageable) {
+    @GetMapping("/{id}/comments")
+    public Page<Comment> getCommentsFromActionPoint(@PathVariable Long id, Pageable pageable) {
         ActionPoint actionPoint = getActionPoint(id);
-        return noteEndpoint.getAllNotesFromList(actionPoint.getListOfNotes(), pageable);
+        return commentEndpoint.getAllCommentsFromList(actionPoint.getListOfComments(), pageable);
     }
 
-    @ApiOperation("Get all Tasks for a Action Point")
+    @ApiOperation("Get all Tasks for an Action Point")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "Page no", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "Size of each page", dataType = "string", paramType = "query"),
@@ -173,15 +172,15 @@ public class ActionPointEndpoint {
         return taskEndpoint.getAllTasksFromList(actionPoint.getTasks(), pageable);
     }
 
-    @ApiOperation("Add an Note to a Action Point")
+    @ApiOperation("Add an Comment to a Action Point")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successfully added Note to Action Point"),
+            @ApiResponse(code = 200, message = "Successfully added Comment to Action Point"),
             @ApiResponse(code = 204, message = "Not found")})
-    @PostMapping("/{actionId}/note/{noteId}")
-    public ActionPoint addNoteToActionPoint(@PathVariable Long actionId, @PathVariable Long noteId) {
+    @PostMapping("/{actionId}/comment/{commentId}")
+    public ActionPoint addNoteToActionPoint(@PathVariable Long actionId, @PathVariable Long commentId) {
         ActionPoint actionPoint = getActionPoint(actionId);
-        Note note = noteEndpoint.getNote(noteId);
-        actionPoint.getListOfNotes().add(note.getId());
+        Comment comment = commentEndpoint.getComment(commentId);
+        actionPoint.getListOfComments().add(comment.getId());
         actionPointRepository.save(actionPoint);
         return actionPoint;
     }

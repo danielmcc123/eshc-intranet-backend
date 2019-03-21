@@ -110,10 +110,10 @@ public class ActionPointRepositoryTests {
     @Test
     @Transactional
     public void addContributors_returnActionPointWithContributors() {
-        actionPoint1.getListOfContributors().add(member1.getId());
-        actionPoint1.getListOfContributors().add(member2.getId());
+        actionPoint1.getContributors().add(member1.getId());
+        actionPoint1.getContributors().add(member2.getId());
         ActionPoint savedActionPoint = actionPointRepository.save(actionPoint1);
-        final List<Long> loadedMemberIds = Lists.newArrayList(savedActionPoint.getListOfContributors());
+        final List<Long> loadedMemberIds = Lists.newArrayList(savedActionPoint.getContributors());
         assertEquals(loadedMemberIds.get(0),member1.getId());
         assertEquals(loadedMemberIds.get(1),member2.getId());
     }
@@ -121,11 +121,11 @@ public class ActionPointRepositoryTests {
     @Test
     @Transactional
     public void addWatchers_returnActionPointWithWatchers() {
-        actionPoint1.getListOfWatchers().add(member1.getId());
-        actionPoint1.getListOfWatchers().add(member2.getId());
-        actionPoint1.getListOfWatchers().add(member3.getId());
+        actionPoint1.getWatchers().add(member1.getId());
+        actionPoint1.getWatchers().add(member2.getId());
+        actionPoint1.getWatchers().add(member3.getId());
         ActionPoint savedActionPoint = actionPointRepository.save(actionPoint1);
-        final List<Long> loadedMemberIds = Lists.newArrayList(savedActionPoint.getListOfWatchers());
+        final List<Long> loadedMemberIds = Lists.newArrayList(savedActionPoint.getWatchers());
         assertEquals(loadedMemberIds.get(0),member1.getId());
         assertEquals(loadedMemberIds.get(1),member2.getId());
         assertEquals(loadedMemberIds.get(2),member3.getId());

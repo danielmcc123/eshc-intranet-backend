@@ -22,19 +22,20 @@ public class ActionPoint extends BaseEntity {
     private Long leadContributor;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<Long> listOfContributors;
+    private Set<Long> contributors;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<Long> listOfWatchers;
+    private Set<Long> watchers;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Long> tasks;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private Set<Long> listOfNotes;
+    private Set<Long> comments;
 
-    private Status currentStatus;
+    private Status status;
 
+    @Column(columnDefinition="TEXT")
     private String description;
 
     private String category;
@@ -42,11 +43,11 @@ public class ActionPoint extends BaseEntity {
 
     //*************************************************Constructors*****************************************************
     public ActionPoint() {
-        this.currentStatus = Status.UNSTARTED;
+        this.status = Status.UNSTARTED;
         tasks = new HashSet<>();
-        listOfContributors = new HashSet<>();
-        listOfWatchers = new HashSet<>();
-        listOfNotes = new HashSet<>();
+        contributors = new HashSet<>();
+        watchers = new HashSet<>();
+        comments = new HashSet<>();
     }
 
     public ActionPoint(String title) {
@@ -57,7 +58,7 @@ public class ActionPoint extends BaseEntity {
 
     public ActionPoint(String title, Status status) {
         this(title);
-        this.currentStatus = status;
+        this.status = status;
     }
 
     //*********************************************Getters and Setters**************************************************
@@ -77,36 +78,36 @@ public class ActionPoint extends BaseEntity {
         this.leadContributor = leadContributor;
     }
 
-    public Set<Long> getListOfContributors() {
-        return listOfContributors;
+    public Set<Long> getContributors() {
+        return contributors;
     }
 
-    public void setListOfContributors(Set<Long> listOfContributors) {
-        this.listOfContributors = listOfContributors;
+    public void setContributors(Set<Long> contributors) {
+        this.contributors = contributors;
     }
 
-    public Set<Long> getListOfWatchers() {
-        return listOfWatchers;
+    public Set<Long> getWatchers() {
+        return watchers;
     }
 
-    public void setListOfWatchers(Set<Long> listOfWatchers) {
-        this.listOfWatchers = listOfWatchers;
+    public void setWatchers(Set<Long> watchers) {
+        this.watchers = watchers;
     }
 
-    public Set<Long> getListOfNotes() {
-        return listOfNotes;
+    public Set<Long> getListOfComments() {
+        return comments;
     }
 
-    public void setListOfNotes(Set<Long> listOfNotes) {
-        this.listOfNotes = listOfNotes;
+    public void setComments(Set<Long> comments) {
+        this.comments = comments;
     }
 
-    public Status getCurrentStatus() {
-        return currentStatus;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setCurrentStatus(Status currentStatus) {
-        this.currentStatus = currentStatus;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public String getDescription() {
@@ -141,11 +142,11 @@ public class ActionPoint extends BaseEntity {
         return Objects.equals(id, that.id) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(leadContributor, that.leadContributor) &&
-                Objects.equals(listOfContributors, that.listOfContributors) &&
-                Objects.equals(listOfWatchers, that.listOfWatchers) &&
+                Objects.equals(contributors, that.contributors) &&
+                Objects.equals(watchers, that.watchers) &&
                 Objects.equals(tasks, that.tasks) &&
-                Objects.equals(listOfNotes, that.listOfNotes) &&
-                currentStatus == that.currentStatus &&
+                Objects.equals(comments, that.comments) &&
+                status == that.status &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(category, that.category);
     }
@@ -153,6 +154,6 @@ public class ActionPoint extends BaseEntity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, title, leadContributor, listOfContributors, listOfWatchers, tasks, listOfNotes, currentStatus, description, category);
+        return Objects.hash(id, title, leadContributor, contributors, watchers, tasks, comments, status, description, category);
     }
 }
